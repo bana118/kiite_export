@@ -1,7 +1,6 @@
 import sys, re, cgi, urllib, xml.dom.minidom, time
 import json
 from http.cookiejar import CookieJar
-import login_info
 
 def getToken():
     token = False
@@ -65,8 +64,14 @@ def addvideo_tomylist(mid,smids):
 
 if __name__ == '__main__':
     #login info
-    userid = login_info.userid
-    passwd = login_info.passwd
+    userid = ""
+    passwd = ""
+    with open("login_info.txt") as f:
+        l = f.read()
+        mo1 = re.search(r'email\s*=\s*"(?P<email>.*)"', l)
+        mo2 = re.search(r'passwd\s*=\s*"(?P<passwd>.*)"', l)
+        userid = mo1.group('email')
+        passwd = mo2.group('passwd')
 
     args = sys.argv
     if len(args) != 2:
